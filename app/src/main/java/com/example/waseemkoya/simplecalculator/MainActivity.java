@@ -31,8 +31,10 @@ public class MainActivity extends AppCompatActivity {
     private final char SUBTRACTION = '-';
     private final char MULTIPLICATION = '*';
     private final char DIVISION = '/';
+    private final char EQUALS = 0;
     private double val1 = Double.NaN;
     private double val2;
+    private char ACTION;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +115,60 @@ public class MainActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                compute();
+                ACTION = ADDITION;
+                result.setText(String.valueOf(val1) + "+");
+                info.setText(null);
+            }
+        });
 
+        sub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                compute();
+                ACTION = SUBTRACTION;
+                result.setText(String.valueOf(val1) + "-");
+                info.setText(null);
+            }
+        });
+
+        mul.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                compute();
+                ACTION = MULTIPLICATION;
+                result.setText(String.valueOf(val1) + "*");
+                info.setText(null);
+            }
+        });
+
+        div.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                compute();
+                ACTION = DIVISION;
+                result.setText(String.valueOf(val1) + "/");
+                info.setText(null);
+            }
+        });
+
+        equals.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                compute();
+                ACTION = EQUALS;
+                result.setText(result.getText().toString() + String.valueOf(val2) + "=" + String.valueOf(val1));
+                info.setText(null);
+            }
+        });
+
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                val1 = Double.NaN;
+                val2 = 0;
+                result.setText(null);
+                info.setText(null);
             }
         });
     }
@@ -139,5 +194,31 @@ public class MainActivity extends AppCompatActivity {
         info = (TextView)findViewById(R.id.tvControl);
         result = (TextView)findViewById(R.id.tvResult);
 
+    }
+
+    private void compute(){
+        if(!Double.isNaN(val1)){
+            val2 = Double.parseDouble(info.getText().toString());
+
+            switch(ACTION){
+                case ADDITION:
+                    val1 = val1 + val2;
+                    break;
+                case SUBTRACTION:
+                    val1 = val1 - val2;
+                    break;
+                case MULTIPLICATION:
+                    val1 = val1 * val2;
+                    break;
+                case DIVISION:
+                    val1 = val1 / val2;
+                    break;
+                case EQUALS:
+                    break;
+            }
+        }
+        else{
+            val1 = Double.parseDouble(info.getText().toString());
+        }
     }
 }
